@@ -2,7 +2,7 @@ const { network, ethers } = require("hardhat")
 const {
     networkConfig,
     developmentChains,
-    // VERIFICATION_BLOCK_CONFIRMATIONS,
+    VERIFICATION_BLOCK_CONFIRMATIONS,
 } = require("../helper-hardhat-config")
 const { verify } = require("../utils/verify")
 
@@ -22,9 +22,15 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         subscriptionId = transactionReceipt.events[0].args.subId
         await VRFCoordinatorV2Mock.fundSubscription(subscriptionId, FUND_AMOUNT)
     } else {
-        vrfCoordinatorV2Address = networkConfig[chainId]["VRFCoordinatorV2"]
+        vrfCoordinatorV2Address = networkConfig[chainId]["vrfCoordinatorV2"]
         subscriptionId = networkConfig[chainId]["subscriptionId"]
     }
+
+    const waitBlockConfirmations = developmentChains.includes(network.name)
+        ? 1
+        : VERIFICATION_BLOCK_CONFIRMATIONS
+
+    log("----------------------------------------------------")
 
     const entranceFee = networkConfig[chainId]["entranceFee"]
     const gasLane = networkConfig[chainId]["gasLane"]
@@ -43,7 +49,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         from: deployer,
         args: args,
         log: true,
-        waitConfirmations: network.config.blockConfirmations || 1,
+        waitConfirmations: waitBlockConfirmations || 1,
     })
 
     // Verify the deployment
