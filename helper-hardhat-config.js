@@ -23,16 +23,16 @@ const networkConfig = {
         entranceFee: ethers.utils.parseEther("0.01"),
         callbackGasLimit: "500000", // 500,000 gas
     },
-    //     1: {
-    //         name: "mainnet",
-    //         keepersUpdateInterval: "30",
-    //     },
+    1: {
+        name: "mainnet",
+        keepersUpdateInterval: "30",
+    },
 }
 
 const developmentChains = ["hardhat", "localhost"]
 const VERIFICATION_BLOCK_CONFIRMATIONS = 6
-const frontEndContractsFile = "../nextjs-smartcontract-lottery/constants/contractAddresses.json"
-const frontEndAbiFile = "../nextjs-smartcontract-lottery/constants/abi.json"
+// const frontEndContractsFile = "../nextjs-smartcontract-lottery/constants/contractAddresses.json"
+// const frontEndAbiFile = "../nextjs-smartcontract-lottery/constants/abi.json"
 
 module.exports = {
     networkConfig,
